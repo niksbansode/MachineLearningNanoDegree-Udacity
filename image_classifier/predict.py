@@ -18,11 +18,11 @@ def getpredictargs():
 
 def load_checkpoint(file_path, gpu=False):
     checkpoint = None
-    model = models.densenet121(pretrained=True)
     if gpu:
         checkpoint = torch.load(file_path)
     else:
         checkpoint = torch.load(file_path, map_location=lambda storage, loc: storage)
+    model = getattr(models, checkpoint['arch'])(pretrained=True)
     model.classifier = checkpoint['classifier']
     model.load_state_dict(checkpoint['state_dict'])
     model.class_to_idx = checkpoint['class_to_idx']

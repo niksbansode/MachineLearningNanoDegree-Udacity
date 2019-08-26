@@ -13585,7 +13585,8 @@ Epoch 6/6.. Train loss: 1.457.. Validation loss: 0.063.. Validation accuracy: 0.
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># TODO: Save the checkpoint </span>
-<span class="n">checkpoint</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;state_dict&#39;</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span>
+<span class="n">checkpoint</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;arch&#39;</span><span class="p">:</span> <span class="s1">&#39;densenet121&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;state_dict&#39;</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span>
               <span class="s1">&#39;classifier&#39;</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">classifier</span><span class="p">,</span>
               <span class="s1">&#39;class_to_idx&#39;</span><span class="p">:</span> <span class="n">train_data</span><span class="o">.</span><span class="n">class_to_idx</span><span class="p">}</span>
 
@@ -13617,10 +13618,12 @@ Epoch 6/6.. Train loss: 1.457.. Validation loss: 0.063.. Validation accuracy: 0.
         <span class="n">checkpoint</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">checkpoint</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">map_location</span><span class="o">=</span><span class="k">lambda</span> <span class="n">storage</span><span class="p">,</span> <span class="n">loc</span><span class="p">:</span> <span class="n">storage</span><span class="p">)</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;state_dict&#39;</span><span class="p">])</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">classifier</span> <span class="o">=</span> <span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;classifier&#39;</span><span class="p">]</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">class_to_idx</span> <span class="o">=</span> <span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;class_to_idx&#39;</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">model</span>
+    
+    <span class="n">loaded_model</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;arch&#39;</span><span class="p">])(</span><span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">loaded_model</span><span class="o">.</span><span class="n">classifier</span> <span class="o">=</span> <span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;classifier&#39;</span><span class="p">]</span>
+    <span class="n">loaded_model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;state_dict&#39;</span><span class="p">])</span>
+    <span class="n">loaded_model</span><span class="o">.</span><span class="n">class_to_idx</span> <span class="o">=</span> <span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;class_to_idx&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">loaded_model</span>
 </pre></div>
 
     </div>

@@ -56,7 +56,6 @@ def buildmodel(arch, hidden_units):
         
     model =  getattr(models,arch)(pretrained=True)
     input_size = getmodelinputsize(model,arch)
-    model = models.densenet121(pretrained=True)
     for param in model.parameters():
         param.requires_grad = False
     classifier = nn.Sequential(OrderedDict([
@@ -70,8 +69,9 @@ def buildmodel(arch, hidden_units):
     model.classifier = classifier
     return model
     
-def save_checkpoint(model, train_data, directory_path):
-    checkpoint = {'state_dict': model.state_dict(),
+def save_checkpoint(model, train_data, directory_path, arch):
+    checkpoint = {'arch' : arch,
+              'state_dict': model.state_dict(),
               'classifier': model.classifier,
               'class_to_idx': train_data.class_to_idx}
     if directory_path == None:
@@ -153,11 +153,11 @@ if __name__ == "__main__":
     if learning_rate:
         optimizer = optim.Adam(model.classifier.parameters(), lr=learning_rate)
     else:
-        optimizer = optim.Adam(model.classifier.parameters(), lr=0.009)
+        optimizer = optim.Adam(model.classifier.parameters(), lr=0.003)
     model.to(device)
     print('---Model Training Started---')
     model = trainmodel(model,optimizer,trainloader,validloader,device,epochs)
     print('---Model Trained Successfully---')
-    save_checkpoint(model,train_data,save_dir)
+    save_checkpoint(model,train_data,save_dir,arch)
     print('---Model Saved---')
     
