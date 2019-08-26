@@ -13588,7 +13588,9 @@ Epoch 6/6.. Train loss: 1.457.. Validation loss: 0.063.. Validation accuracy: 0.
 <span class="n">checkpoint</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;arch&#39;</span><span class="p">:</span> <span class="s1">&#39;densenet121&#39;</span><span class="p">,</span>
               <span class="s1">&#39;state_dict&#39;</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span>
               <span class="s1">&#39;classifier&#39;</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">classifier</span><span class="p">,</span>
-              <span class="s1">&#39;class_to_idx&#39;</span><span class="p">:</span> <span class="n">train_data</span><span class="o">.</span><span class="n">class_to_idx</span><span class="p">}</span>
+              <span class="s1">&#39;class_to_idx&#39;</span><span class="p">:</span> <span class="n">train_data</span><span class="o">.</span><span class="n">class_to_idx</span><span class="p">,</span>
+              <span class="s1">&#39;epochs&#39;</span> <span class="p">:</span> <span class="n">epochs</span><span class="p">,</span>
+              <span class="s1">&#39;learning_rate&#39;</span><span class="p">:</span> <span class="mf">0.003</span><span class="p">}</span>
 
 <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">checkpoint</span><span class="p">,</span> <span class="s1">&#39;checkpoint.pth&#39;</span><span class="p">)</span>
 </pre></div>
